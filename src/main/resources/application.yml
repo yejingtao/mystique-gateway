@@ -1,0 +1,43 @@
+server:
+  port: 443
+  ssl:
+    key-store: classpath:chanelcn-withpass.pfx
+    key-store-password: fGR2FjSFHg
+    key-store-type: PKCS12
+    
+  
+
+spring:
+  application:
+    name: gateway
+    
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8111/eureka/
+      
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+
+zuul:
+  routes:
+    mms-service:
+      path: /mms/**
+      serviceId: mms-server
+    sms-service:
+      path: /sms/**
+      serviceId: sms-server
+    wechat-service:
+      path: /wechat/**
+      serviceId: wechat-server
+
+filter:
+  accessIpList:
+    filePath: iplist.txt
+    
+logging:
+  file: logs/${spring.application.name}.log
